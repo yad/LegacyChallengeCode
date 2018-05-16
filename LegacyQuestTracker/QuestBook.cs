@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using LegacyQuestTracker.Helpers;
 using System.Web;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Runtime.Versioning;
 
 namespace LegacyQuestTracker
 {
@@ -29,11 +31,13 @@ namespace LegacyQuestTracker
 
         private static Quest EnvironmentVersionQuest()
         {
-            var envVersion = Environment.Version;
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.GetName().Name == "LegacyWebApplication");
+            var targetFrameworkAttribute = (TargetFrameworkAttribute)assembly.GetCustomAttribute(typeof(TargetFrameworkAttribute));
+            var framework = new FrameworkName(targetFrameworkAttribute.FrameworkName);
             return new QuestBuilder()
                 .WithTitle("Upgrade .NET Framework")
-                .WithObjective("Use latest .NET Framework Version, current version is Major {0}, Minor {1}", envVersion.Major, envVersion.Minor)
-                .WithCondition(() => Task.FromResult(envVersion.Major == 4 && envVersion.Minor >= 6))
+                .WithObjective("Use latest .NET Framework Version, current version is {0}", framework.Version)
+                .WithCondition(() => Task.FromResult(framework.Version.Major == 4 && framework.Version.Minor >= 6))
                 .Build();
         }
 
@@ -43,7 +47,7 @@ namespace LegacyQuestTracker
             return new QuestBuilder()
                 .WithTitle("Upgrade MVC Framework")
                 .WithObjective("Use latest MVC Framework Version, current version is Major {0}, Minor {1}", mvcVersion.Major, mvcVersion.Minor)
-                .WithCondition(() => Task.FromResult(mvcVersion.Major == 3 && mvcVersion.Minor >= 2))
+                .WithCondition(() => Task.FromResult(mvcVersion.Major == 5 && mvcVersion.Minor >= 2))
                 .Build();
         }
 
