@@ -53,7 +53,7 @@ namespace LegacyQuestTracker
 
         private static Quest PoolIntegratedModeQuest()
         {
-            var useIntegratedMode = System.Web.HttpRuntime.UsingIntegratedPipeline;
+            var useIntegratedMode = HttpRuntime.UsingIntegratedPipeline;
             return new QuestBuilder()
                 .WithTitle("Use IIS Pool Integrated Pipeline Mode")
                 .WithObjective("Switch application configuration to Integrated Pipeline mode, current mode is {0}", useIntegratedMode ? "integrated" : "classic")
