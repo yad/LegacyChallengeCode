@@ -11,6 +11,7 @@ namespace LegacyWebApplication.Controllers
         [HttpGet]
         public void IndexAsync()
         {
+            ViewBag.Name = HttpContext.User.Identity.Name;
             AsyncManager.OutstandingOperations.Increment();
             new QuestBook().GetQuests().ContinueWith((result) =>
             {
