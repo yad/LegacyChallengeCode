@@ -59,7 +59,6 @@
     <Compile Include="Quest.cs" />
     <Compile Include="QuestBook.cs" />
     <Compile Include="QuestBuilder.cs" />
-    <Compile Include="QuestTrackerController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
